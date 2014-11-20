@@ -9,20 +9,31 @@ See the Apache Version 2.0 License for specific language governing permissions a
 */
 
 (function() {
-    var ko = this.ko || require('../index.js'),
-        makeSampleData = function() {
-            var sampleData = {
-                everest: { height: ko.observable(8848) },
-                aconcagua: { height: ko.observable(6961) },
-                mckinley: { height: ko.observable(6194) },
-                kilimanjaro: { height: ko.observable(5895) },
-                elbrus: { height: ko.observable(5642) },
-                vinson: { height: ko.observable(4892) },
-                puncakjaya: { height: ko.observable(4884) },
-            };
-            sampleData.all = [sampleData.everest, sampleData.aconcagua, sampleData.mckinley, sampleData.kilimanjaro, sampleData.elbrus, sampleData.vinson, sampleData.puncakjaya];
-            return sampleData;
+    var ko = {};
+    ko.observableArray = require('../index.js');
+
+    var Observ = require('observ');
+    ko.isObservable = Observ.isObservable;
+    ko.isComputed = Observ.isComputed;
+
+    makeSampleData = function() {
+        var sampleData = {
+            everest: { height: 8848 },
+            aconcagua: { height: 6961 },
+            mckinley: { height: 6194 },
+            kilimanjaro: { height: 5895 },
+            elbrus: { height: 5642 },
+            vinson: { height: 4892 },
+            puncakjaya: { height: 4884 },
         };
+         = ko.
+
+        // does it do a deep observable or only shallow?
+        // perhaps support an options hash for {deep: true}
+        var list = [sampleData.everest, sampleData.aconcagua, sampleData.mckinley, sampleData.kilimanjaro, sampleData.elbrus, sampleData.vinson, sampleData.puncakjaya];
+        sampleData.all = ko.observableArray(list, {deep: true});
+        return sampleData;
+    };
 
     describe("Filter", function () {
 
