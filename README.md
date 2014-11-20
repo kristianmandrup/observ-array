@@ -76,6 +76,13 @@ function handleChange(value) {
 }
 ```
 
+## TODO
+
+Learn from KO [observableArrays](http://knockoutjs.com/documentation/observableArrays.html)
+
+Also learn from [knockout-projections](https://github.com/SteveSanderson/knockout-projections)
+and implement computed-map and computed-filter, similar to [observable array: map and filter](https://github.com/SteveSanderson/knockout-projections/blob/master/src/knockout-projections.js)
+
 ## Installation
 
 `npm install observ-array`
