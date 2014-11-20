@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Observ array: map and filter - specs</title>
+
+        <link rel="stylesheet" type="text/css" href="../node_modules/jasmine-reporters/ext/jasmine.css" />
+        <script type="text/javascript" src="../node_modules/jasmine-reporters/ext/jasmine.js"></script>
+        <script type="text/javascript" src="../node_modules/jasmine-reporters/ext/jasmine-html.js"></script>
+        <script type="text/javascript" src="../node_modules/knockout/build/output/knockout-latest.js"></script>
+
+        <!-- include source files here... -->
+        <script type="text/javascript" src="../index.js"></script>
+        <!-- Should also work with only the bundled/minified file -->
+        <!-- <script type="text/javascript" src="../dist/knockout-projections-1.0.0.min.js"></script> -->
+
+        <!-- include spec files here... -->
+        <script type="text/javascript" src="map_spec.js"></script>
+        <script type="text/javascript" src="filter_spec.js"></script>
+
+        <script type="text/javascript">
+            (function() {
+                var jasmineEnv = jasmine.getEnv(),
+                    jasmineReporter = new jasmine.TrivialReporter();
+                jasmineEnv.updateInterval = 1000;
+                jasmineEnv.addReporter(jasmineReporter);
+                window.onload = function () { jasmineEnv.execute(); }
+            })();
+        </script>
+    </head>
+
+    <body></body>
+</html>
