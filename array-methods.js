@@ -22,8 +22,7 @@ var methods = ARRAY_METHODS.map(function (name) {
 
 module.exports = ArrayMethods
 
-function ArrayMethods(obs, opts, lv) {
-    opts = opts || {}
+function ArrayMethods(obs) {
     obs.push = observArrayPush
     obs.pop = observArrayPop
     obs.shift = observArrayShift
@@ -35,17 +34,6 @@ function ArrayMethods(obs, opts, lv) {
         obs[tuple[0]] = tuple[1]
     })
 
-    if (!!opts.deep) {
-      lv = lv || 0;
-      opts.maxLv = opts.maxLv || 4;
-      if (opts.maxLv < lv) {
-        Object.keys(obj).forEach(function(key) {
-          if (typeof key !== 'function') {
-            ArrayMethods(obs[key], opts, lv++);
-          }
-        }
-      }
-    }
     return obs
 }
 

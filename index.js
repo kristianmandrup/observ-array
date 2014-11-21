@@ -1,4 +1,5 @@
 var Observ = require("observ")
+var ObservStruct = require("observ-struct")
 
 // circular dep between ArrayMethods & this file
 module.exports = ObservArray
@@ -31,7 +32,8 @@ var addListener = require("./add-listener.js")
         The observ array instance itself would have indexed
         properties that are the observables
 */
-function ObservArray(initialList) {
+function ObservArray(initialList, opts, lv) {
+    opts = opts || {}
     // list is the internal mutable list observ instances that
     // all methods on `obs` dispatch to.
     var list = initialList
@@ -72,6 +74,27 @@ function ObservArray(initialList) {
 
     obs._type = "observ-array"
     obs._version = "3"
+
+    // we need to implement deep for observ-struct as well ;)
+    if (!!opts.deep) {
+      lv = lv || 0;
+      opts.maxLv = opts.maxLv || 6;
+      if (opts.maxLv < lv) {
+        Object.keys(obj).forEach(function(key) {
+          var value = obs[key];
+          if (typeof value !== 'function') {
+            lv = lv + 1
+            if (value instanceof Array) {
+              ObservArray(value, opts, lv);
+            } else if (typeof value === 'object') {
+              ObservStruct(value, opts, lv);
+            } else {
+              Observ(value);
+            }
+          }
+        });
+      }
+    }
 
     return ArrayMethods(obs, list)
 }
