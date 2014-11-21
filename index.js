@@ -72,15 +72,12 @@ function ObservArray(initialList, opts, lv) {
     // listeners. Which causes rage bugs
     obs._removeListeners = removeListeners
 
-    obs._type = "observ-array"
-    obs._version = "3"
-
     // we need to implement deep for observ-struct as well ;)
     if (!!opts.deep) {
       lv = lv || 0;
       opts.maxLv = opts.maxLv || 6;
       if (opts.maxLv < lv) {
-        Object.keys(obj).forEach(function(key) {
+        list.forEach(function(key) {
           var value = obs[key];
           if (typeof value !== 'function') {
             lv = lv + 1
@@ -95,6 +92,9 @@ function ObservArray(initialList, opts, lv) {
         });
       }
     }
+
+    obs._type = "observ-array"
+    obs._version = "3"
 
     return ArrayMethods(obs, list)
 }
