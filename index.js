@@ -11,6 +11,8 @@ var transaction = require("./transaction.js")
 var ArrayMethods = require("./array-methods.js")
 var addListener = require("./add-listener.js")
 
+var deepSet = require('./deep-set')
+
 
 /*  ObservArray := (Array<T>) => Observ<
         Array<T> & { _diff: Array }
@@ -72,30 +74,13 @@ function ObservArray(initialList, opts, lv) {
     // listeners. Which causes rage bugs
     obs._removeListeners = removeListeners
 
-    // we need to implement deep for observ-struct as well ;)
-    if (!!opts.deep) {
-      lv = lv || 0;
-      opts.maxLv = opts.maxLv || 6;
-      if (opts.maxLv < lv) {
-        list.forEach(function(key) {
-          var value = obs[key];
-          if (typeof value !== 'function') {
-            lv = lv + 1
-            if (value instanceof Array) {
-              ObservArray(value, opts, lv);
-            } else if (typeof value === 'object') {
-              ObservStruct(value, opts, lv);
-            } else {
-              Observ(value);
-            }
-          }
-        });
-      }
-    }
+    deepSet(list, opts, lv);
 
     obs._type = "observ-array"
     obs._version = "3"
 
+    // decorates Array with special immutable (wrapped) versions of array methods such as:
+    // "concat", "slice", "every", "filter", "forEach"
     return ArrayMethods(obs, list)
 }
 

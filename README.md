@@ -83,6 +83,50 @@ Learn from KO [observableArrays](http://knockoutjs.com/documentation/observableA
 Also learn from [knockout-projections](https://github.com/SteveSanderson/knockout-projections)
 and implement computed-map and computed-filter, similar to [observable array: map and filter](https://github.com/SteveSanderson/knockout-projections/blob/master/src/knockout-projections.js)
 
+## Lazy array
+
+A lazy array will use lazy versions of `set` and `put`. Instead of executing the operations directly on the state, the operations will be stored for later execution in a scheduler for that array.
+
+```js
+var lazyList = ObservLazyArray(list);
+
+// schedules operations for later
+for (var i=3; i < someList.length; i = i + 2) {
+  lazyList.put(i, someList[i]);
+}
+```
+
+The scheduler can later be asked to "play" those operations when convenient. This way we can buffer operations and only execute them once per redraw to gain more control and performance boost.
+
+Note however, that you must be careful with this approach, and try to avoid buffering more operations than can be executed for a single frame update, including the DOM patch rendering itself.
+
+For this reason the schedule uses a multi-framed buffer. It creates each buffer with max 500 scheduled operations per frame (default). You can configure this setting like this: `lazyList.scheduler.maxOpsPerFrame = 1300`.
+
+This let's us schedule a huge number of operations to be played over multiple frames so we can still get a fluid visual experience.
+
+```js
+// inside main-loop update function
+// we then instead call `doScheduledAndRedraw(state)` which calls `executeScheduled()` on the state
+// if such a method exists, in order to lazily update the state "at the last minute".
+function update(state) {
+  ...
+  if (currentState === null && !redrawScheduled) {
+      redrawScheduled = true
+      raf(doScheduledAndRedraw(state))
+  }
+  ...
+}
+
+function doScheduledAndRedraw(state) {
+  state.executeScheduled && state.executeScheduled();
+  redraw();
+}
+
+function redraw() {
+  ...
+```
+
+
 ## Installation
 
 `npm install observ-array`
