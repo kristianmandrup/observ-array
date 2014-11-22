@@ -1,25 +1,27 @@
-module.exports = Scheduler;
-
 // customize to fit your scenario (and machine speed of client)
-Scheduler.prototype.maxOpsPerFrame = 500;
+var ArrScheduler = require('./arr-scheduler')
 
 var Scheduler = function(list, opts) {
-  opts = opts || {maxOpsPerFrame: Scheduler.maxOpsPerFrame || 500}
+  opts = opts || {}
+  opts.maxOpsPerFrame = opts.maxOpsPerFrame || ArrScheduler.maxOpsPerFrame || 700
 
   return {
     target: list,
     maxOpsPerFrame: opts.maxOpsPerFrame,
     executeScheduled: function() {
       this.scheduled.execute();
-    }
+    },
     scheduled: {
       ops: [[]],
       frameIndex: function() {
-        return this.ops.length;
-      }
+        return Math.max(this.ops.length-1, 0);
+      },
+      numOps: function() {
+        return this.ops[this.frameIndex()].length;
+      },
       anyOps: function() {
-        return this.ops.length > 0;
-      }
+        return this.numOps() > 0;
+      },
       execute: function() {
         if (!this.anyOps())
           return;
@@ -30,8 +32,11 @@ var Scheduler = function(list, opts) {
       }
     },
     schedule: function(mutator) {
-      var ops = this.scheduled.ops[this.scheduled.frameIndex];
-      if (ops.length < this.maxOpsPerFrame) {
+      var frameIndex = this.scheduled.frameIndex();
+      var max = this.maxOpsPerFrame;
+      var ops = this.scheduled.ops[frameIndex];
+
+      if (ops.length < max) {
         // add one more frame buffer
         ops = this.scheduled.ops.unshift();
         ops.push(mutator);
@@ -40,3 +45,5 @@ var Scheduler = function(list, opts) {
     }
   }
 }
+
+module.exports = Scheduler;

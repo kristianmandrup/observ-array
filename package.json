@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "adiff": "^0.2.12",
-    "observ": "~1.0.0",
+    "observ": ">=0.2.0",
     "observ-struct": "~6.0.0",
     "xtend": "^3.0.0"
   },

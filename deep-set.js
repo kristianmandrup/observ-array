@@ -1,6 +1,6 @@
 module.exports = deepSet
 
-ObservArray   = require('observ-array')
+ObservArray   = require('./index')
 ObservStruct  = require('observ-struct')
 Observ        = require('observ')
 

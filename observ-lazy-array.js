@@ -9,10 +9,11 @@ var ObservArray = require('./index')
 function ObservLazyArray(initialList, opts, lv) {
   opts = opts || {}
 
-  opts.set = lazySet;
-  opts.put = lazyPut;
 
   var array = ObservArray(initialList, opts, lv);
   array.scheduler = new Scheduler(array, opts);
+  array.set = lazySet(array);
+  array.put = lazyPut(array);
+
   return array;
 }

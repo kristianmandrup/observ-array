@@ -34,11 +34,13 @@ var deepSet = require('./deep-set')
         The observ array instance itself would have indexed
         properties that are the observables
 */
+
+function get(index) {
+    return this._list[index]
+}
+
 function ObservArray(initialList, opts, lv) {
     opts = opts || {}
-
-    var put = opts.put || arrPut;
-    var set = opts.set || arrSet;
 
     // list is the internal mutable list observ instances that
     // all methods on `obs` dispatch to.
@@ -56,11 +58,11 @@ function ObservArray(initialList, opts, lv) {
 
     // override set and store original for later use
     obs._observSet = obs.set
-    obs.set = set
+    obs.set = arrSet
 
     obs.get = get
     obs.getLength = getLength
-    obs.put = put
+    obs.put = arrPut
     obs.transaction = transaction
 
     // you better not mutate this list directly
@@ -78,7 +80,9 @@ function ObservArray(initialList, opts, lv) {
     // listeners. Which causes rage bugs
     obs._removeListeners = removeListeners
 
-    deepSet(list, opts, lv);
+    if (deepSet) {
+      deepSet(list, opts, lv);
+    }    
 
     obs._type = "observ-array"
     obs._version = "3"
@@ -86,10 +90,6 @@ function ObservArray(initialList, opts, lv) {
     // decorates Array with special immutable (wrapped) versions of array methods such as:
     // "concat", "slice", "every", "filter", "forEach"
     return ArrayMethods(obs, list)
-}
-
-function get(index) {
-    return this._list[index]
 }
 
 function getLength() {
