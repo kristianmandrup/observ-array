@@ -1,22 +1,18 @@
-var Observ = require("observ")
-var ObservStruct = require("observ-struct")
-
 // circular dep between ArrayMethods & this file
 module.exports = ObservLazyArray
 
-var splice = require("./splice.js")
-var put = require("./lazy/lazy-put.js")
-var set = require("./lazy/lazy-set.js")
-
-var transaction = require("./transaction.js")
-var ArrayMethods = require("./array-methods.js")
-var addListener = require("./add-listener.js")
-
 var deepSet = require('./deep-set')
-
 var Scheduler = require("./scheduler.js")
 
+var lazySet = require('./lazy/lazy-set')
+var lazyPut = require('./lazy/lazy-put')
+
 function ObservLazyArray(initialList, opts, lv) {
+  opts = opts || {}
+
+  opts.set = lazySet;
+  opts.put = lazyPut;
+
   var array = ObservArray(initialList, opts, lv);
   array.scheduler = new Scheduler(array, opts);
   return array;

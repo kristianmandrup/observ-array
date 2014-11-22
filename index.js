@@ -5,8 +5,8 @@ var ObservStruct = require("observ-struct")
 module.exports = ObservArray
 
 var splice = require("./splice.js")
-var put = require("./put.js")
-var set = require("./set.js")
+var arrPut = require("./put.js")
+var arrSet = require("./set.js")
 var transaction = require("./transaction.js")
 var ArrayMethods = require("./array-methods.js")
 var addListener = require("./add-listener.js")
@@ -36,6 +36,10 @@ var deepSet = require('./deep-set')
 */
 function ObservArray(initialList, opts, lv) {
     opts = opts || {}
+
+    var put = opts.put || arrPut;
+    var set = opts.set || arrSet;
+
     // list is the internal mutable list observ instances that
     // all methods on `obs` dispatch to.
     var list = initialList
