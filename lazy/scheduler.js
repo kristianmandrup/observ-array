@@ -36,13 +36,17 @@ var Scheduler = function(list, opts) {
       var max = this.maxOpsPerFrame;
       var ops = this.scheduled.ops[frameIndex];
 
+      console.log('ops', ops);
       if (ops.length < max) {
         // add one more frame buffer
-        ops = this.scheduled.ops.unshift();
         ops.push(mutator);
+        this.onScheduled(ops)
       }
       return ops;
-    }
+    },
+    // hook: override to log scheduled operations as they are added
+    onScheduled: function(ops) {
+    }    
   }
 }
 
