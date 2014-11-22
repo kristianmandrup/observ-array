@@ -46,7 +46,7 @@ var Scheduler = function(list, opts) {
     },
     // hook: override to log scheduled operations as they are added
     onScheduled: function(ops) {
-    }    
+    }
   }
 }
 

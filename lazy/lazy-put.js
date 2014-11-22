@@ -6,7 +6,7 @@ var put = require("../put.js")
 // that schedules lazy mutation for later (ie. when a getter is called)
 function lazyPut(arr) {
   return function (index, newValue) {
-    arr.scheduler.schedule(putter(index, newValue, arr));
+    return arr.scheduler.schedule(putter(index, newValue, arr));
   }
 }
 
