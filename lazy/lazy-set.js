@@ -1,4 +1,4 @@
-module.exports = lazyPut
+module.exports = lazySet
 
 var set = require("../set.js")
 
