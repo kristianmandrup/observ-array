@@ -117,8 +117,12 @@ function update(state) {
   ...
 }
 
+function executeScheduled(state) {
+  ...
+}
+
 function doScheduledAndRedraw(state) {
-  state.executeScheduled && state.executeScheduled();
+  executeScheduled(state);
   redraw();
 }
 
