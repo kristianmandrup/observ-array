@@ -100,9 +100,9 @@ The scheduler can later be asked to "play" those operations when convenient. Thi
 
 Note however, that you must be careful with this approach, and try to avoid buffering more operations than can be executed for a single frame update, including the DOM patch rendering itself.
 
-For this reason the schedule uses a multi-framed buffer. It creates each buffer with max 500 scheduled operations per frame (default). You can configure this setting like this: `lazyList.scheduler.maxOpsPerFrame = 1300`.
+For this reason the schedule uses a multi-framed buffer. It creates each buffer with max 500 scheduled operations per frame (default). You can configure this setting on a per array basis like this: `lazyList.scheduler.maxOpsPerFrame = 1300`. You can also set the global default used by all lazy arrays when instantiated: `Scheduler.prototype.maxOpsPerFrame = 500;`
 
-This let's us schedule a huge number of operations to be played over multiple frames so we can still get a fluid visual experience.
+Using a "multi-framed buffer" let's us schedule a huge number of operations to be played over multiple frames so we can still get a fluid visual experience.
 
 ```js
 // inside main-loop update function

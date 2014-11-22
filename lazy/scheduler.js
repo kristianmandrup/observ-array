@@ -1,7 +1,10 @@
 module.exports = Scheduler;
 
+// customize to fit your scenario (and machine speed of client)
+Scheduler.prototype.maxOpsPerFrame = 500;
+
 var Scheduler = function(list, opts) {
-  opts = opts || {maxOpsPerFrame: 500} // experimental
+  opts = opts || {maxOpsPerFrame: Scheduler.maxOpsPerFrame || 500}
 
   return {
     list: list,
