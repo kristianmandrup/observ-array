@@ -100,9 +100,21 @@ The scheduler can later be asked to "play" those operations when convenient. Thi
 
 Note however, that you must be careful with this approach, and try to avoid buffering more operations than can be executed for a single frame update, including the DOM patch rendering itself.
 
-For this reason the schedule uses a multi-framed buffer. It creates each buffer with max 500 scheduled operations per frame (default). You can configure this setting on a per array basis like this: `lazyList.scheduler.maxOpsPerFrame = 1300`. You can also set the global default used by all lazy arrays when instantiated: `Scheduler.prototype.maxOpsPerFrame = 500;`
+For this reason the schedule uses a multi-framed buffer. It creates each buffer with max 500 scheduled operations per frame (default). You can configure this setting on a per array basis like this: `lazyList.scheduler.maxOpsPerFrame = 1300`. You can also set the global default used by all lazy observables when instantiated: `Scheduler.prototype.maxOpsPerFrame = 500;`
 
 Using a "multi-framed buffer" let's us schedule a huge number of operations to be played over multiple frames so we can still get a fluid visual experience.
+
+Note that we will likely be using a common `Scheduler` from `observ` as the base prototype. Then for each type of observable, the Scheduler might behave a little differently or at least have a different `maxOpsPerFrame` default value.
+
+```js
+var LazyArrayScheduler.prototype =  Scheduler.prototype`
+LazyArrayScheduler.maxOpsPerFrame = 800
+
+var LazyStructScheduler.prototype =  Scheduler.prototype`
+LazyArrayScheduler.maxOpsPerFrame = 500
+```
+
+We can use all this infrastructure as part of the [main-loop](https://github.com/Raynos/main-loop) implementation...
 
 ```js
 // inside main-loop update function
