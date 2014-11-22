@@ -18,7 +18,6 @@ var Scheduler = require("./scheduler.js")
 
 function ObservLazyArray(initialList, opts, lv) {
   var array = ObservArray(initialList, opts, lv);
-  array.scheduler = new Scheduler()
-  array.anyScheduled = array.scheduler.any;
+  array.scheduler = new Scheduler(array, opts);
   return array;
 }

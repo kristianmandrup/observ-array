@@ -7,7 +7,7 @@ var Scheduler = function(list, opts) {
   opts = opts || {maxOpsPerFrame: Scheduler.maxOpsPerFrame || 500}
 
   return {
-    list: list,
+    target: list,
     maxOpsPerFrame: opts.maxOpsPerFrame,
     executeScheduled: function() {
       this.scheduled.execute();
