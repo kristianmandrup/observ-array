@@ -32,9 +32,9 @@ test("calling lazyArr returns observable: function", function (assert) {
     //
     scheduler.executeScheduled();
     // // console.log('arrECT', arr);
-    assert.equal(arr[0], 7)
-    // assert.equal(arr[1], 2)
-    // assert.equal(arr[2], 9)
+    assert.equal(arr.get(0), 7)
+    assert.equal(arr.get(1), 2)
+    assert.equal(arr.get(2), 9)
 
     assert.end()
 })

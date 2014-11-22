@@ -6,14 +6,12 @@ var set = require("../set.js")
 // that schedules lazy mutation for later (ie. when a getter is called)
 function lazySet(arr) {
   return function (list) {
-    console.log('arr', arr);
-    console.log('list', list);
-    return arr.scheduler.schedule(setter(arr));
+    return arr.scheduler.schedule(setter(list, arr));
   }
 }
 
-function setter(arr) {
-  return function(newList) {
-    arr.set(newList);
+function setter(list, arr) {
+  return function(newState) {
+    return list;
   }
 }

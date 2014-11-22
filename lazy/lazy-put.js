@@ -10,8 +10,9 @@ function lazyPut(arr) {
   }
 }
 
-function putter(index, value, ctx) {
-  return function() {
-    put(index, value).bind(ctx);
+function putter(index, value, arr) {
+  return function(newState) {
+    newState[index] = value;
+    return newState;
   }
 }
