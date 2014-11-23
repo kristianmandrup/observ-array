@@ -38,27 +38,26 @@ function ArrayMethods(obs) {
 }
 
 
-function observArrayPush() {
+function lazyObservArrayPush() {
     var args = slice.call(arguments)
     args.unshift(this._list.length, 0)
     this.splice.apply(this, args)
 
     return this._list.length
 }
-function observArrayPop() {
+function lazyObservArrayPop() {
     return this.splice(this._list.length - 1, 1)[0]
 }
-function observArrayShift() {
+function lazyObservArrayShift() {
     return this.splice(0, 1)[0]
 }
-function observArrayUnshift() {
+function lazyObservArrayUnshift() {
     var args = slice.call(arguments)
     args.unshift(0, 0)
     this.splice.apply(this, args)
 
     return this._list.length
 }
-
 
 function notImplemented() {
     throw new Error("Pull request welcome")

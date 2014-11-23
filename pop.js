@@ -1,25 +1,25 @@
 var addListener = require("./add-listener.js")
 var setNonEnumerable = require("./lib/set-non-enumerable.js");
 
-module.exports = push;
+module.exports = pop;
 
 // `obs.put` is a mutable implementation of `array[index] = value`
 // that mutates both `list` and the internal `valueList` that
 // is the current value of `obs` itself
-function push(value) {
+function pop(value) {
   var obs = this
   var valueList = obs().slice()
 
   var originalLength = valueList.length
   var val = typeof value === "function" ? value() : value
 
-  obs._list.push(val)
+  obs._list.pop(val)
 
   // add listener to value if observ
   addListener(obs, val);
 
-  // fake push diff
-  var valueArgs = valueList.concat(val)
+  // fake pop diff
+  var valueArgs = valueList.slice(valueList.length -1)
 
   setNonEnumerable(valueList, "_diff", [valueArgs])
 

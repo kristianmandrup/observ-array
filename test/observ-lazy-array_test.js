@@ -8,7 +8,6 @@ test("lazyArr is a function", function (assert) {
     assert.end()
 })
 
-
 test("calling lazyArr returns observable: function", function (assert) {
     assert.equal(typeof lazyArr([3]), "function")
     assert.end()

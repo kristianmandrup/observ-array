@@ -11,8 +11,10 @@ var transaction = require("./transaction.js")
 var ArrayMethods = require("./array-methods.js")
 var addListener = require("./add-listener.js")
 
-var deepSet = require('./deep-set')
+var deepSet   = require('./deep-set')
+var lazyness  = require('./lazyness')
 
+var extend = require('xtend')
 
 /*  ObservArray := (Array<T>) => Observ<
         Array<T> & { _diff: Array }
@@ -82,8 +84,12 @@ function ObservArray(initialList, opts, lv) {
 
     if (deepSet) {
       deepSet(list, opts, lv);
-    }    
+    }
 
+    // add basic lazyness methods
+    obs = extend(obs, lazyness);
+
+    obs._lazy = false
     obs._type = "observ-array"
     obs._version = "3"
 
