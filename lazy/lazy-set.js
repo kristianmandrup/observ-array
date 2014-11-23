@@ -1,17 +1,15 @@
 module.exports = lazySet
 
-var set = require("../set.js")
-
-// `obs.set` is a LAZY mutable implementation of `array[index] = value`
-// that schedules lazy mutation for later (ie. when a getter is called)
+// `obs.lazySet` is a LAZY mutable implementation of `obs.set`
+// that schedules lazy mutation for later
 function lazySet(arr) {
   return function (list) {
-    return arr.scheduler.schedule(setter(list, arr));
+    return arr.scheduler.schedule(setter(list), {type: 'set'});
   }
 }
 
-function setter(list, arr) {
-  return function(newState) {
+function setter(list) {
+  return function() {
     return list;
   }
 }

@@ -1,18 +1,26 @@
 // circular dep between ArrayMethods & this file
 module.exports = ObservLazyArray
 
-var Scheduler   = require("./lazy/scheduler.js")
-var lazySet     = require('./lazy/lazy-set')
-var lazyPut     = require('./lazy/lazy-put')
-var ObservArray = require('./index')
+var scheduler   = require("./lazy/arr-scheduler.js")
+var lazySet        = require('./lazy/lazy-set')
+var lazyPut        = require('./lazy/lazy-put')
+var lazySplice     = require('./lazy/lazy-splice')
+var lazyPush       = require('./lazy/lazy-push')
+
+var ObservArray    = require('./index')
 
 function ObservLazyArray(initialList, opts, lv) {
   opts = opts || {}
 
-  var array = ObservArray(initialList, opts, lv);
-  array.scheduler = new Scheduler(array, opts);
-  array.set = lazySet(array);
-  array.put = lazyPut(array);
+  var obs = ObservArray(initialList, opts, lv);
 
-  return array;
+  var schedulerBuilder = opts.schedulerBuilder || scheduler.create;
+
+  obs.scheduler = new schedulerBuilder(obs, opts);
+  obs.lazySet     = lazySet(obs);
+  obs.lazyPut     = lazyPut(obs);
+  obs.lazySplice  = lazySplice(obs);
+  obs.lazyPush    = lazyPush(obs);
+
+  return obs;
 }

@@ -11,17 +11,25 @@ var Scheduler = function(list, opts) {
     executeScheduled: function() {
       this.scheduled.execute();
     },
-    schedule: function(mutator) {
+    schedule: function(mutator, opts) {
+      opts = opts || {}
       var frameIndex = this.scheduled.frameIndex();
       var max = this.maxOpsPerFrame;
       var ops = this.scheduled.ops;
-      var frameOps = ops[frameIndex] || [];
+      var frameOps = ops[frameIndex] || []
 
       if (frameOps.length < max) {
         // add one more frame buffer
+        if (opts.type === 'set') {
+          // reset all previos ops on set (overrides any previous value)
+          console.log('clear on set:', opts.type)
+          frameOps = [];
+        }
+
         frameOps.push(mutator);
         this.onScheduled(frameOps)
       }
+      this.scheduled.ops[frameIndex] = frameOps;
       return frameOps;
     },
     // hook: override to log scheduled operations as they are added
