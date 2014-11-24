@@ -14,7 +14,9 @@ var addListener = require("./add-listener.js")
 var deepSet   = require('./deep-set')
 var lazyness  = require('./lazyness')
 
-var extend = require('xtend')
+var isObservable  = require('observ/is-observable')
+var isComputed    = require('observ/is-computed')
+
 
 /*  ObservArray := (Array<T>) => Observ<
         Array<T> & { _diff: Array }
@@ -90,6 +92,9 @@ function ObservArray(initialList, opts, lv) {
     Object.keys(lazyness).forEach(function(key) {
       obs[key] = lazyness[key];
     })
+    // add basic introspection methods
+    obs.isObservable = isObservable
+    obs.isComputed   = isComputed
 
     obs._lazy = false
     obs._type = "observ-array"

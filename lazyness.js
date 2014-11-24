@@ -26,6 +26,7 @@ function capitalise(string)
 }
 
 function lazy(opts) {
+  opts = opts || {}
   var schedulerBuilder = opts.schedulerBuilder || scheduler.create;
   this.scheduler   = new schedulerBuilder(this, opts);
   this.updateNow   = updateNow;
@@ -39,7 +40,7 @@ function lazy(opts) {
   return this;
 }
 
-var allLazyMethods = arrMethods.concat('scheduler')
+var allLazyMethods = Object.keys(lazyApi).concat('scheduler')
 
 function unlazy() {
   var self = this;
