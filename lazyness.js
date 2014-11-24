@@ -4,10 +4,9 @@ module.exports = {
   unlazy: unlazy
 }
 
-var scheduler   = require("./lazy/arr-scheduler.js")
+var scheduler   = require("./lazy/scheduler.js")
 
-var arrMethods = ['set', 'put', 'splice',
-'push', 'pop', 'shift', 'unshift']
+var arrMethods = ['set', 'put', 'splice', 'push', 'pop', 'shift', 'unshift']
 
 var lazyApi = {}
 
@@ -22,7 +21,7 @@ function isLazy() {
 
 function capitalise(string)
 {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function lazy(opts) {
