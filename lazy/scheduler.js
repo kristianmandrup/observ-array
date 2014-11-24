@@ -11,22 +11,49 @@ var Scheduler = function(list, opts) {
     executeScheduled: function() {
       this.scheduled.execute();
     },
+
+    inversePairs: {
+      'pop': 'push',
+      'shift': 'unshift'
+    },
+
+    isInverse: function(frameOps, opts) {
+      var self = this
+      for (var key in this.inversePairs) {
+        if (this.inversePairs.hasOwnProperty(key)) {
+          if (opts.type === key) {
+            var lastFrameOp = frameOps[frameOps.length -1] || {}
+            var inverseKey = self.inversePairs[key]
+            var result = opts.type === key && lastFrameOp.type === inverseKey;
+            return result
+          }
+        }
+      }
+      return false;
+    },
+
     schedule: function(mutator, opts) {
       opts = opts || {}
       var frameIndex = this.scheduled.frameIndex();
       var max = this.maxOpsPerFrame;
       var ops = this.scheduled.ops;
       var frameOps = ops[frameIndex] || []
+      // push/pop or unshift/shift drop both
+      // perhaps this is check is too expensive to really make sense!?
+      // needs performance test for diff scenarios
+      if (this.isInverse(frameOps, opts)) {
+        frameOps.pop();
+        return frameOps
+      }
 
       if (frameOps.length < max) {
         // add one more frame buffer
         if (opts.type === 'set') {
           // reset all previos ops on set (overrides any previous value)
-          console.log('clear on set:', opts.type)
           frameOps = [];
         }
 
-        frameOps.push(mutator);
+        frameOps.push({op: mutator, type: opts.type});
         this.onScheduled(frameOps)
       }
       this.scheduled.ops[frameIndex] = frameOps;
@@ -57,9 +84,9 @@ var Scheduler = function(list, opts) {
       var newState = this.array._list;
       // We build up a new state from playing all the operation on
       // a cloned array of original
-      this.ops.shift().forEach(function(op) {
+      this.ops.shift().forEach(function(scheduledObj) {
         // newState = ... Not sure how it should be done :P
-        newState = op(newState);
+        newState = scheduledObj.op(newState);
       })
       // then set via the final array
       this.array._list = newState;

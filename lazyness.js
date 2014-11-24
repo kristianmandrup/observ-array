@@ -32,7 +32,7 @@ function lazy(opts) {
   var self = this
   arrMethods.forEach(function(name) {
     var fullName = "lazy" + capitalise(name);
-    self[fullName] = lazyApi[fullName];
+    self[fullName] = lazyApi[fullName]();
   })
 
   this._lazy = true
@@ -43,15 +43,18 @@ var allLazyMethods = arrMethods.concat('scheduler')
 
 function unlazy() {
   var self = this;
+  // Remove all lazy methods, including access to scheduler
   allLazyMethods.forEach(function(fun) {
-    self[fun] = undefined;
+    delete self[fun]
   })
+  // updateNow becomes no-op
   this.updateNow = function() {
   }
   this._lazy = false;
   return this;
 }
 
-function updateNow(obs) {
+// to force evaluation of scheduled ops now!
+function updateNow() {
   this.scheduler.executeScheduled();
 }

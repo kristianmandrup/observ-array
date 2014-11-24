@@ -18,6 +18,8 @@ test("ObservArray contains correct initial value", function (assert) {
     ])
     var initial = arr()
 
+    assert.equal(typeof arr, "function")
+
     assert.equal(typeof arr.filter, "function")
     assert.equal(typeof arr.splice, "function")
     assert.equal(initial.length, 4)

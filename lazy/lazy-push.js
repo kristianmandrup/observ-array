@@ -2,9 +2,9 @@ module.exports = lazyPush
 
 // `obs.lazyPush` is a LAZY mutable implementation of `obs.push`
 // that schedules lazy mutation for later
-function lazyPush(arr) {
+function lazyPush() {
   return function (newValue) {
-    return arr.scheduler.schedule(pusher(newValue), {type: 'push'});
+    return this.scheduler.schedule(pusher(newValue), {type: 'push'});
   }
 }
 

@@ -87,7 +87,9 @@ function ObservArray(initialList, opts, lv) {
     }
 
     // add basic lazyness methods
-    obs = extend(obs, lazyness);
+    Object.keys(lazyness).forEach(function(key) {
+      obs[key] = lazyness[key];
+    })
 
     obs._lazy = false
     obs._type = "observ-array"

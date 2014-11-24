@@ -3,21 +3,20 @@ var ObservArray = require("./index.js")
 var slice = Array.prototype.slice
 
 // TODO: add computed filter and map...
-var READ_METHODS = [
+var ARRAY_METHODS = [
     "concat", "slice", "every", "filter", "forEach", "indexOf",
     "join", "lastIndexOf", "map", "reduce", "reduceRight",
     "some", "toString", "toLocaleString"
 ]
 
-var MUTATE_METHODS = [
-  // TODO: ??
-]
-
 function scheduledMethod(name) {
-  this.scheduler.schedule(lazyMethod(name).bind(this));
+  this.scheduler.schedule(lazyMethod(name));
 }
 
+// can we generalize the pattern of most lazy array mutate methods similar to unlazy versions!?
 function lazyMethod(name) {
+
+    // TODO: Needs some love...
     return function() {
       var res = this._list[name].apply(this._list, arguments)
 
@@ -29,6 +28,6 @@ function lazyMethod(name) {
   }
 }
 
-var methods = MUTATE_METHODS.map(function (name) {
+var methods = ARRAY_METHODS.map(function (name) {
     return [name, scheduledMethod(name).bind(this)];
 })

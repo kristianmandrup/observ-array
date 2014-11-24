@@ -2,9 +2,9 @@ module.exports = lazyPut
 
 // `obs.lazyPut` is a LAZY mutable implementation of `obs.put`
 // that schedules lazy mutation for later
-function lazyPut(arr) {
+function lazyPut() {
   return function (index, newValue) {
-    return arr.scheduler.schedule(putter(index, newValue), {type: 'put'});
+    return this.scheduler.schedule(putter(index, newValue), {type: 'put'});
   }
 }
 
