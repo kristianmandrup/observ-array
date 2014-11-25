@@ -1,8 +1,6 @@
-var execute    = require('./execute')
-
 module.exports = {
   scheduled: {
-    execute: execute
+    executeNext: require('./execute')
   },
   outer: {
     inversePairs: {

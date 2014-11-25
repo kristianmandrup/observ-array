@@ -12,7 +12,7 @@ var ArrayMethods = require("./array-methods.js")
 var addListener = require("./add-listener.js")
 
 var deepSet   = require('./deep-set')
-var lazyness  = require('./lazyness')
+var lazyness  = require('./lazy/lazyness')
 
 var isObservable  = require('observ/is-observable')
 var isComputed    = require('observ/is-computed')

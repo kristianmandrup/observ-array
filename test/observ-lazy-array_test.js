@@ -41,7 +41,7 @@ test("lazySet and lazyPut are played back on executeScheduled", function (assert
     assert.equal(scheduler.scheduled.anyOps(), true)
     assert.equal(scheduler.scheduled.numOps(), 2)
 
-    scheduler.executeScheduled();
+    scheduler.executeNextScheduled();
     // console.log('arrECT', arr);
     assert.equal(arr.get(0), 7)
     assert.equal(arr.get(1), 2)
@@ -68,7 +68,7 @@ test("last lazySet wins!", function (assert) {
     assert.equal(scheduler.scheduled.anyOps(), true)
     assert.equal(scheduler.scheduled.numOps(), 1)
     //
-    scheduler.executeScheduled();
+    scheduler.executeNextScheduled();
     // // console.log('arrECT', arr);
     assert.equal(arr.get(0), 7)
     assert.equal(arr.get(1), 8)
@@ -95,7 +95,7 @@ test("splicer", function (assert) {
     assert.equal(scheduler.scheduled.anyOps(), true)
     assert.equal(scheduler.scheduled.numOps(), 2)
     //
-    scheduler.executeScheduled();
+    scheduler.executeNextScheduled();
     // console.log('arr', arr);
 
     assert.equal(arr.get(0), 8)
@@ -123,7 +123,7 @@ test("pusher", function (assert) {
     assert.equal(scheduler.scheduled.anyOps(), true)
     assert.equal(scheduler.scheduled.numOps(), 3)
     //
-    scheduler.executeScheduled();
+    scheduler.executeAllScheduled();
     // console.log('arr', arr);
 
     assert.equal(arr.get(0), 9)
@@ -151,7 +151,7 @@ test("push/pop", function (assert) {
     assert.equal(scheduler.scheduled.anyOps(), true)
     assert.equal(scheduler.scheduled.numOps(), 2)
     //
-    scheduler.executeScheduled();
+    scheduler.executeAllScheduled();
     // console.log('arr', arr);
 
     assert.equal(arr.getLength(), 2)
@@ -180,7 +180,7 @@ test("unshift/shift", function (assert) {
     assert.equal(scheduler.scheduled.anyOps(), true)
     assert.equal(scheduler.scheduled.numOps(), 2)
     //
-    scheduler.executeScheduled();
+    scheduler.executeAllScheduled();
     // console.log('arr', arr);
 
     assert.equal(arr.getLength(), 2)

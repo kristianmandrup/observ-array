@@ -1,12 +1,7 @@
-module.exports = ObservLazyArray
+module.exports = ObservLazy
 
-var ObservArray    = require('./index')
+var Observ = require('./index')
 
-function ObservLazyArray(initialList, opts, lv) {
-  opts = opts || {}
-
-  var obs = ObservArray(initialList, opts, lv);
-  obs.lazy(opts);
-
-  return obs;
+function ObservLazy(obj, opts, lv) {
+  return Observ(obj, opts, lv).lazy();
 }
